@@ -19,6 +19,7 @@ func Verify(challenge string, nonce int, difficulty int) bool {
 			total += 8
 		} else {
 			total += bits.LeadingZeros8(b)
+			return total >= difficulty
 		}
 	}
 
