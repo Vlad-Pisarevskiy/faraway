@@ -14,7 +14,7 @@ func Verify(challenge string, nonce int, difficulty int) bool {
 	data := challenge + strconv.Itoa(nonce)
 	value := sha256.Sum256([]byte(data))
 
-	total := countingLeadingZeroBits(value)
+	total := countLeadingZeroBits(value)
 
 	return total >= difficulty
 }
@@ -31,7 +31,7 @@ func Solve(challenge string, difficulty int) int {
 	}
 }
 
-func countingLeadingZeroBits(value [32]byte) int {
+func countLeadingZeroBits(value [32]byte) int {
 
 	total := 0
 

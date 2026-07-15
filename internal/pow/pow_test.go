@@ -27,12 +27,13 @@ func TestTableDrivenSolve(t *testing.T) {
 		{"4 нуля", [32]byte{0x0A}, 4},
 		{"0 нулей", [32]byte{0x80}, 0},
 		{"8 нулей", [32]byte{0x00, 0xA0}, 8},
+		{"все нули", [32]byte{}, 256},
 	}
 
 	for _, v := range values {
 
 		t.Run(v.name, func(t *testing.T) {
-			assert.Equal(t, countingLeadingZeroBits(v.hash), v.want)
+			assert.Equal(t, v.want, countLeadingZeroBits(v.hash))
 		})
 	}
 }
