@@ -42,8 +42,12 @@ func ParseSolution(solution string) (int, error) {
 
 	solution = strings.TrimSpace(solution)
 	values := strings.SplitN(solution, " ", solutionArguments)
+	if values[0] != SOLUTION {
+		return 0, errors.New("uncorrected request")
+	}
+
 	if len(values) != solutionArguments {
-		return 0, errors.New("error: get bad solution")
+		return 0, errors.New("get bad solution")
 	}
 
 	nonce := values[1]
@@ -60,7 +64,7 @@ func ParseChallenge(challenge string) (string, int, error) {
 	challenge = strings.TrimSpace(challenge)
 	values := strings.SplitN(challenge, " ", challengeArguments)
 	if len(values) != challengeArguments {
-		return "", 0, errors.New("error: get bad challenge")
+		return "", 0, errors.New("get bad challenge")
 	}
 
 	difficulty, err := strconv.Atoi(values[2])
@@ -76,6 +80,7 @@ func ParseQuote(quote string) (string, error) {
 
 	quote = strings.TrimSpace(quote)
 	values := strings.SplitN(quote, " ", quoteArguments)
+
 	if len(values) != quoteArguments {
 		return "", errors.New("error: get bad quote")
 	}
