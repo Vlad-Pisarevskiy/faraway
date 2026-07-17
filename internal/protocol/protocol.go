@@ -66,6 +66,9 @@ func ParseChallenge(challenge string) (string, int, error) {
 	if len(values) != challengeArguments {
 		return "", 0, errors.New("get bad challenge")
 	}
+	if values[0] != CHALLENGE {
+		return "", 0, errors.New("unexpected argument")
+	}
 
 	difficulty, err := strconv.Atoi(values[2])
 	if err != nil {
@@ -84,6 +87,9 @@ func ParseQuote(quote string) (string, error) {
 	if len(values) != quoteArguments {
 		return "", errors.New("error: get bad quote")
 	}
+	if values[0] != QUOTE {
+		return "", errors.New("unexpected argument")
+	}
 
 	return values[1], nil
 }
@@ -94,6 +100,9 @@ func ParseError(err string) (string, error) {
 	values := strings.SplitN(err, " ", errorArguments)
 	if len(values) != errorArguments {
 		return "", errors.New("error: get bad error")
+	}
+	if values[0] != ERROR {
+		return "", errors.New("unexpected argument")
 	}
 
 	return values[1], nil

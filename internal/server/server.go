@@ -13,28 +13,26 @@ import (
 	"github.com/Vlad-Pisarevskiy/faraway/internal/quotes"
 )
 
-const baseDifficulty = 20
-
 type Server struct {
 	quoter     *quotes.Quoter
 	difficulty int
 }
 
-func NewServer(quoter *quotes.Quoter) *Server {
+func NewServer(quoter *quotes.Quoter, difficulty int) *Server {
 
 	return &Server{
 		quoter:     quoter,
-		difficulty: baseDifficulty,
+		difficulty: difficulty,
 	}
 }
 
 func (s *Server) Run(addr string) error {
 
 	ln, err := net.Listen("tcp", addr)
-	defer ln.Close()
 	if err != nil {
 		return err
 	}
+	defer ln.Close()
 
 	return s.Serve(ln)
 }
@@ -42,7 +40,7 @@ func (s *Server) Run(addr string) error {
 func (s *Server) Serve(ln net.Listener) error {
 
 	for {
-		var conn net.Conn
+
 		conn, err := ln.Accept()
 
 		if err != nil {
@@ -66,7 +64,7 @@ func (s *Server) handle(conn net.Conn) {
 	_, _ = rand.Read(byteChallenge[:])
 
 	challenge := hex.EncodeToString(byteChallenge[:])
-	_, err := conn.Write([]byte(protocol.BuildChallenge(challenge, baseDifficulty)))
+	_, err := conn.Write([]byte(protocol.BuildChallenge(challenge, s.difficulty)))
 	if err != nil {
 		log.Println(err)
 		return
@@ -85,7 +83,7 @@ func (s *Server) handle(conn net.Conn) {
 		return
 	}
 
-	if ok := pow.Verify(challenge, solution, baseDifficulty); !ok {
+	if ok := pow.Verify(challenge, solution, s.difficulty); !ok {
 		stringErr := protocol.BuildError("bad solution")
 		_, err = conn.Write([]byte(stringErr))
 		if err != nil {
