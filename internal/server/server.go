@@ -46,14 +46,10 @@ func (s *Server) handle(conn net.Conn) {
 
 	writer := bufio.NewWriter(conn)
 	var byteChallenge [16]byte
-	_, err := rand.Read(byteChallenge[:])
-	if err != nil {
-		log.Println(err)
-		return
-	}
+	_, _ = rand.Read(byteChallenge[:])
 
 	challenge := hex.EncodeToString(byteChallenge[:])
-	_, err = writer.Write([]byte(protocol.BuildChallenge(challenge, baseDifficulty)))
+	_, err := writer.Write([]byte(protocol.BuildChallenge(challenge, baseDifficulty)))
 	if err != nil {
 		log.Println(err)
 		return
