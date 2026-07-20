@@ -11,6 +11,7 @@ import (
 	"github.com/Vlad-Pisarevskiy/faraway/internal/pow"
 	"github.com/Vlad-Pisarevskiy/faraway/internal/protocol"
 	"github.com/Vlad-Pisarevskiy/faraway/internal/quotes"
+	"golang.org/x/time/rate"
 )
 
 type Server struct {
