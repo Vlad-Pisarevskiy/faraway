@@ -1,16 +1,24 @@
 package main
 
 import (
+	"fmt"
 	"log"
 
+	"github.com/Vlad-Pisarevskiy/faraway/config"
 	"github.com/Vlad-Pisarevskiy/faraway/internal/quotes"
 	"github.com/Vlad-Pisarevskiy/faraway/internal/server"
 )
 
 func main() {
 
-	quoter := quotes.NewQuoter()
-	srv := server.NewServer(quoter, 5)
+	cfg, err := config.InitConfig()
+	if err != nil {
+		log.Fatal(err)
+	}
 
-	log.Fatal(srv.Run(":8080"))
+	quoter := quotes.NewQuoter()
+	srv := server.NewServer(quoter, cfg.Difficulty())
+
+	log.Println("Starting server...")
+	log.Fatal(srv.Run(fmt.Sprintf(":%s", cfg.Port())))
 }

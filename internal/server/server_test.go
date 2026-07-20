@@ -28,7 +28,7 @@ func TestServer_HappyPath(t *testing.T) {
 	require.NoError(t, err)
 	defer conn.Close()
 
-	err = conn.SetReadDeadline(time.Now().Add(time.Minute))
+	err = conn.SetReadDeadline(time.Now().Add(time.Second * 5))
 	require.NoError(t, err)
 
 	reader := bufio.NewReader(conn)

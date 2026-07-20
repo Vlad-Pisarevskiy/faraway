@@ -19,7 +19,6 @@ const (
 )
 
 func BuildChallenge(challenge string, difficulty int) string {
-
 	return fmt.Sprintf("%s %s %d\n", CHALLENGE, challenge, difficulty)
 }
 
