@@ -15,6 +15,7 @@ func InitConfig() (*Config, error) {
 
 	var c Config
 	var err error
+
 	c.values, err = godotenv.Read(".env")
 	if err != nil {
 		return nil, err
@@ -35,4 +36,8 @@ func (c *Config) Difficulty() int {
 	}
 
 	return difficulty
+}
+
+func (c *Config) Host() string {
+	return c.values["HOST"]
 }

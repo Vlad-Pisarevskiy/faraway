@@ -5,6 +5,7 @@ import (
 	"crypto/rand"
 	"encoding/hex"
 	"errors"
+	"io"
 	"log"
 	"net"
 	"time"
@@ -80,6 +81,9 @@ func (s *Server) handle(conn net.Conn) {
 
 	reader := bufio.NewReader(conn)
 	data, err := reader.ReadString('\n')
+	if errors.Is(err, io.EOF) {
+		return
+	}
 	if err != nil {
 		log.Println(err)
 		return

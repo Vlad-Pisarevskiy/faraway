@@ -17,5 +17,7 @@ func main() {
 
 	client := client2.NewClient()
 	log.Println("Starting client...")
-	log.Fatal(client.Run(fmt.Sprintf(":%s", cfg.Port())))
+	if err = client.Run(fmt.Sprintf("%s:%s", cfg.Host(), cfg.Port())); err != nil {
+		log.Println(err)
+	}
 }
