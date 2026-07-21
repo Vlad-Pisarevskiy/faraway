@@ -1,0 +1,17 @@
+services:
+  server:
+    image: server
+    build:
+      context: ./
+      dockerfile: server.Dockerfile
+    environment:
+      - PORT=8080
+
+  client:
+    image: client
+    build:
+      context: ./
+      dockerfile: client.Dockerfile
+    depends_on: server
+    environment:
+      - SERVER_ADDR=server:8080
